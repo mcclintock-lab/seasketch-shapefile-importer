@@ -31,3 +31,5 @@ importSketches(shapefilePath, DB, USER_ID, PROJECT_ID, async (geometry, attribut
 
 Running this script will enable an interactive CLI that will report on how many sketches were 
 generated, display any errors, and prompt whether to proceed with entry into the database. 
+
+![command line interface screenshot](https://user-images.githubusercontent.com/511063/53450474-660ad200-39c0-11e9-82b5-3eec40b741a3.png "Screenshot")
