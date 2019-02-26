@@ -1,0 +1,32 @@
+{
+  "name": "@seasketch/shapefile-importer",
+  "version": "1.0.0",
+  "description": "Convert shapefile contents to sketches and upload to the SeaSketch database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcclintock-lab/seasketch-shapefile-importer.git"
+  },
+  "author": "Chad Burt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mcclintock-lab/seasketch-shapefile-importer/issues"
+  },
+  "homepage": "https://github.com/mcclintock-lab/seasketch-shapefile-importer#readme",
+  "dependencies": {
+    "csv": "^5.1.1",
+    "csv-parse": "^4.3.3",
+    "inquirer": "^6.2.2",
+    "mongoose": "^5.4.14",
+    "ora": "^3.1.0",
+    "proj4": "^2.5.0",
+    "reproject": "^1.2.3",
+    "shapefile": "^0.6.6",
+    "srs": "^1.2.0",
+    "terraformer": "^1.0.9",
+    "terraformer-arcgis-parser": "^1.1.0"
+  }
+}
