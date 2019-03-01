@@ -37,7 +37,7 @@ const checkProjection = path => {
 };
 
 const toEsriFeature = geojson => {
-  const geometryType = `esriGeometry${geojson.geometry.type}`;
+  const geometryType = `esriGeometry${geojson.geometry.type.replace('Multi', '')}`;
   // convert to epsg 3857
   const feature = reproject(geojson, "EPSG:4326", "EPSG:3857");
   // add OBJECTID field
@@ -62,7 +62,7 @@ const getSketchClass = async id => {
     const sketchClass = await SketchClass.findById(id).exec();
     sketchClasses[id] = sketchClass;
     sketchClasses[id].attributes = {};
-    const formAttributes = await FormAttribute.find({sketchclassid: sketchClass._id}).exec();
+    const formAttributes = await FormAttribute.find({sketchclassid: sketchClass._id, deletedAt: new Date(0)}).exec();
     for (let attr of formAttributes) {
       sketchClasses[id].attributes[attr.exportid] = attr;
     }
