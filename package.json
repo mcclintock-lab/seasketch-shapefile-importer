@@ -1,6 +1,6 @@
 {
   "name": "@seasketch/shapefile-importer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Convert shapefile contents to sketches and upload to the SeaSketch database",
   "main": "index.js",
   "scripts": {

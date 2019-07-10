@@ -14,7 +14,7 @@ const FormAttribute = mongoose.model("FormAttribute", {
   choices: mongoose.Schema.Types.Mixed
 });
 
-const sketchSchema = new mongoose.Schema({ name: String }, {strict: false});
+const sketchSchema = new mongoose.Schema({ name: String, sketchclass: mongoose.Schema.ObjectId, parentid: mongoose.Schema.ObjectId, user: mongoose.Schema.ObjectId, project: mongoose.Schema.ObjectId }, {strict: false});
 const Sketch = mongoose.model("Sketch", sketchSchema);
 const lgSchema = new mongoose.Schema({ type: String, geometry: {} }, {strict: false});
 const LargeGeometry = mongoose.model("LargeGeometry", sketchSchema);
@@ -62,7 +62,7 @@ const getSketchClass = async id => {
     const sketchClass = await SketchClass.findById(id).exec();
     sketchClasses[id] = sketchClass;
     sketchClasses[id].attributes = {};
-    const formAttributes = await FormAttribute.find({sketchclassid: sketchClass._id, deletedAt: new Date(0)}).exec();
+    const formAttributes = await FormAttribute.find({sketchclassid: sketchClass._id.toString(), deletedAt: new Date(0)}).exec();
     for (let attr of formAttributes) {
       sketchClasses[id].attributes[attr.exportid] = attr;
     }
@@ -78,7 +78,7 @@ const getOrCreateFolder = async (name, sketchclassid, project, user) => {
     const sketchClass = await getSketchClass(sketchclassid);
     const sketch = new Sketch({
       name,
-      sketchclass: sketchClass._id.toString(),
+      sketchclass: sketchClass._id,
       project: project,
       user: user,
       inMessage: false,
@@ -132,8 +132,9 @@ const saveSketch = async (attrs) => {
   await geom.save();
   const sketch = new Sketch({
     ...attrs,
-    preprocessedgeometryid: geom._id
+    preprocessedgeometryid: geom._id.toString()
   });
+  console.log(sketch);
   await sketch.save();
   return sketch;
 }
