@@ -134,7 +134,6 @@ const saveSketch = async (attrs) => {
     ...attrs,
     preprocessedgeometryid: geom._id.toString()
   });
-  console.log(sketch);
   await sketch.save();
   return sketch;
 }
