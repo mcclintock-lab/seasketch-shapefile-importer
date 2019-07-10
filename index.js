@@ -78,9 +78,9 @@ const getOrCreateFolder = async (name, sketchclassid, project, user) => {
     const sketchClass = await getSketchClass(sketchclassid);
     const sketch = new Sketch({
       name,
-      sketchclass: sketchClass._id,
-      project: new mongoose.Types.ObjectId(project),
-      user: new mongoose.Types.ObjectId(user),
+      sketchclass: sketchClass._id.toString(),
+      project: project,
+      user: user,
       inMessage: false,
       deletedAt: new Date(0),
       isCollection: true,
