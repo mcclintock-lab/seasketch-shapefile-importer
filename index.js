@@ -103,8 +103,8 @@ const toSketch = async (geometry, properties, project, user, staticGeometry=true
   const sketch = {
     name: properties['NAME'],
     sketchclass: sketchClass._id,
-    project: new mongoose.Types.ObjectId(project),
-    user: new mongoose.Types.ObjectId(user),
+    project: project,
+    user: user,
     inMessage: false,
     geometry,
     // otherwise Seasketch will think it's a collection
