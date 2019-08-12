@@ -7,6 +7,7 @@ const Terraformer = require("terraformer");
 Terraformer.ArcGIS = require("terraformer-arcgis-parser");
 const { reproject } = require("reproject");
 const mongoose = require("mongoose");
+const convex = require("@turf/convex").default;
 const SketchClass = mongoose.model("SketchClass", { name: String });
 const FormAttribute = mongoose.model("FormAttribute", {
   sketchclassid: mongoose.Schema.ObjectId,
@@ -93,7 +94,7 @@ const getOrCreateFolder = async (name, sketchclassid, project, user) => {
 }
 
 // TODO: verify geometry type matches sketchclass
-const toSketch = async (geometry, properties, project, user, staticGeometry=true) => {
+const toSketch = async (geometry, geometryOriginal, properties, project, user, staticGeometry=true) => {
   const sketchClass = await getSketchClass(properties.SKETCH_CLASS_ID);
   let folder = null;
   if (properties.FOLDER) {
@@ -110,9 +111,7 @@ const toSketch = async (geometry, properties, project, user, staticGeometry=true
     // otherwise Seasketch will think it's a collection
     preprocessedgeometryid: 1,
     deletedAt: new Date(0),
-    geometryOriginal: {
-      ...geometry.features[0].geometry
-    },
+    geometryOriginal,
     parentid: folder ? folder._id : null,
     staticGeometry,
     isCollection: false,
@@ -143,6 +142,7 @@ const importSketches = async (
   connectionString,
   userId,
   projectId,
+  staticGeometry,
   mapFunction
 ) => {
   mongoose.connect(connectionString, { useNewUrlParser: true });
@@ -178,11 +178,14 @@ const importSketches = async (
           result.value.properties
         );
         if (properties) {
+
+          // console.log(result.value);
           const feature = toEsriFeature({
             ...result.value,
             properties
           });
-          const sketch = await toSketch(feature, properties, projectId, userId);
+          const geometryOriginal = toEsriFeature(convex(result.value)).features[0].geometry;
+          const sketch = await toSketch(feature, geometryOriginal, properties, projectId, userId, staticGeometry);
           accepted.push(sketch);
         } else {
           rejected.push(result);

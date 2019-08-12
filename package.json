@@ -1,6 +1,6 @@
 {
   "name": "@seasketch/shapefile-importer",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Convert shapefile contents to sketches and upload to the SeaSketch database",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/mcclintock-lab/seasketch-shapefile-importer#readme",
   "dependencies": {
+    "@turf/convex": "^6.0.3",
     "csv": "^5.1.1",
     "csv-parse": "^4.3.3",
     "inquirer": "^6.2.2",
